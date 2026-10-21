@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#122e26" />
+  <meta name="description" content="Aruku Trip — one beautiful, live-updating home for friends, locations and shared expenses." />
+  <title>Aruku Trip · Explore together</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{--forest:#153a30;--pine:#245646;--leaf:#77a88b;--gold:#e6bd6f;--cream:#f6f8f3;--paper:#fff;--ink:#20392f;--muted:#71827a;--line:#e1eae3;--warn:#a76333;--shadow:0 18px 58px rgba(30,63,46,.09);--r:20px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:'DM Sans',system-ui,-apple-system,sans-serif;font-size:14px}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:wait;opacity:.6}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a5d2ab;outline-offset:3px}[hidden]{display:none!important}
+    .shell{max-width:1230px;margin:auto;padding:0 24px}.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.21em;text-transform:uppercase;color:#7eac90}.eyebrow:before{content:'';height:6px;width:6px;border-radius:50%;background:var(--gold)}.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800;letter-spacing:-.055em;text-decoration:none}.brandmark{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:#e5eedf;color:#1c523f}.brandmark svg{width:23px;height:23px}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:78px;gap:14px}.nav-right{display:flex;align-items:center;gap:12px}.live-pill,.name-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border:1px solid var(--line);border-radius:99px;background:#fff;color:#46665a;font-size:12px;font-weight:700;white-space:nowrap}.live-dot{width:7px;height:7px;background:#58ad76;border-radius:100%;box-shadow:0 0 0 4px #ddf1e1}.live-pill.offline .live-dot{background:#dc9a4f;box-shadow:0 0 0 4px #fcebd6}.signout{background:transparent;border:0;font-size:12px;color:#75867a;font-weight:700;padding:9px}.signout:hover{color:#1d533e}
+    .page{padding-bottom:66px}.hero{position:relative;overflow:hidden;background:linear-gradient(105deg,#153c31,#426f5a);border-radius:26px;color:white;min-height:287px;display:flex;align-items:center;box-shadow:0 28px 70px rgba(31,65,45,.17)}.hero-content{position:relative;z-index:2;padding:44px 52px;max-width:710px}.hero h1{font:700 clamp(36px,5vw,65px)/1.09 'Playfair Display',Georgia,serif;letter-spacing:-.045em;margin:15px 0 14px}.hero h1 em{font-weight:500;color:#e8ca8d}.hero p{line-height:1.7;color:#d1e3d6;margin:0;max-width:495px;font-size:14px}.hero-scene{position:absolute;right:0;bottom:0;width:64%;height:100%;pointer-events:none;opacity:.98}.hero .eyebrow{color:#c7e5ca}.hero .eyebrow:before{background:#efcc84}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:22px 0 42px}.stat{padding:21px 22px;background:#fff;border-radius:17px;border:1px solid #e9efe8;box-shadow:0 6px 25px #234c3007}.stat-title{display:flex;align-items:center;gap:9px;color:#718278;font-size:12px;font-weight:700}.stat-title svg{width:17px;height:17px;color:#7ca88b}.stat-value{font-size:27px;letter-spacing:-.045em;font-weight:800;margin-top:13px}.stat-sub{color:#8a988e;font-size:11px;margin-top:4px}
+    .section{margin:0 0 42px}.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin:0 0 17px}.section-head h2{font:700 29px/1.2 'Playfair Display',Georgia,serif;letter-spacing:-.035em;margin:7px 0 0}.section-head p{font-size:12px;line-height:1.6;color:var(--muted);margin:7px 0 0}.section-overline{font-size:10px;font-weight:800;color:#6f987f;letter-spacing:.2em;text-transform:uppercase}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:11px;border:1px solid transparent;padding:12px 16px;font-size:12px;font-weight:800;transition:transform .15s,background .15s}.btn:hover{transform:translateY(-1px)}.btn svg{height:16px;width:16px}.btn-primary{color:#fff;background:var(--forest)}.btn-primary:hover{background:#20533f}.btn-soft{background:#e8f0e7;border-color:#d9e6da;color:#2f644d}.btn-soft:hover{background:#dfebdd}.btn-outline{background:white;border-color:var(--line);color:var(--forest)}.btn-danger{background:#fff4ed;border:1px solid #f4ded0;color:#955f3a}.btn-compact{padding:7px 10px;font-size:11px}
+    .location-note{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 19px;background:#ebf3e9;border:1px solid #dcead9;border-radius:15px;margin-bottom:16px}.note-content{display:flex;align-items:center;gap:13px}.note-icon{width:37px;height:37px;border-radius:11px;background:white;display:grid;place-items:center;color:#4d8362;flex-shrink:0}.note-icon svg{width:18px;height:18px}.note-content strong{display:block;font-size:12px;margin-bottom:3px}.note-content p{font-size:11px;color:#698273;line-height:1.5;margin:0}.location-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .table-card{background:white;border:1px solid var(--line);border-radius:17px;overflow:hidden;box-shadow:0 8px 35px #23483208}.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;text-align:left}thead{background:#fafcf9}th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#87978a;padding:16px 23px;white-space:nowrap}td{padding:17px 23px;border-top:1px solid #edf1ec;font-size:12px;color:#52685c}tbody tr:hover{background:#fbfdfb}td:last-child,th:last-child{text-align:right}.member-name{display:flex;align-items:center;gap:12px;white-space:nowrap}.avatar{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:#e5f0e3;color:#246048;font-size:13px;font-weight:800;text-transform:uppercase;flex-shrink:0}.member-label{color:#233e2f;font-size:12px;font-weight:800}.member-secondary{font-size:10px;color:#92a298;margin-top:4px}.chip{display:inline-flex;gap:5px;align-items:center;background:#eef5eb;color:#55805f;border-radius:6px;padding:4px 7px;font-size:9px;font-weight:800;margin-left:7px}.chip-admin{color:#936e2d;background:#fff4d9}.distance-main{font-size:13px;font-weight:800;color:#264639}.distance-sub{font-size:10px;color:#96a49a;margin-top:4px}.coords{color:#4e745d;text-decoration:underline;text-underline-offset:3px;font-size:11px;font-weight:700;white-space:nowrap}.coords:hover{color:#204e38}.money{font-weight:800;color:#2e5740;white-space:nowrap;font-size:13px}.empty-state{text-align:center!important;color:#96a398;padding:37px 15px;font-size:13px}.footnote{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:11px;color:#8d9b90;padding:14px 18px;border-top:1px solid #eef2ed}.footnote strong{color:#294c38}
+    .item-total-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 23px;background:#f8fbf7;border-top:1px solid #ebf0e8}.item-total-row strong{color:#244534;font-size:12px}.item-total-row .amount{font-size:18px;font-weight:800;color:#204a35;letter-spacing:-.04em}.category{display:inline-block;padding:5px 9px;background:#f2f6f0;color:#61816a;border-radius:7px;font-weight:700;font-size:10px}.item-title{color:#274635;font-weight:800}.icon-button{border:1px solid #f0e5df;color:#a46c52;background:#fffbf8;border-radius:8px;padding:7px 9px}.icon-button:hover{background:#fff1e8}.nobreak{white-space:nowrap}
+    .admin-layout{display:grid;grid-template-columns:1fr 1fr;gap:17px}.form-card{border-radius:18px;padding:25px;background:white;border:1px solid var(--line);box-shadow:0 7px 28px rgba(29,75,48,.04)}.card-head{display:flex;gap:13px;align-items:flex-start;margin-bottom:22px}.card-icon{display:grid;place-items:center;flex-shrink:0;width:41px;height:41px;background:#e9f1e8;border-radius:12px;color:#386f50}.card-icon svg{width:19px;height:19px}.card-head h3{margin:0;font-size:17px;letter-spacing:-.03em}.card-head p{margin:5px 0 0;color:#8b9a8e;font-size:11px;line-height:1.5}.field{margin-bottom:15px}.field label{display:block;font-size:11px;font-weight:800;color:#54705f;margin-bottom:7px}.field input,.field select{width:100%;background:#fcfdfa;border:1px solid #dfe8de;border-radius:10px;padding:12px 13px;min-height:43px;font-size:13px;outline:none;color:#244435}.field input:focus,.field select:focus{border-color:#7daf84;box-shadow:0 0 0 3px #e6f2e7}.field input::placeholder{color:#a0ada1}.fields-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fields-3{display:grid;grid-template-columns:1.15fr .8fr 1fr;gap:10px}.field-caption{font-size:10px;color:#9aaa9b;display:block;margin-top:5px}.form-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #edf2e9;padding-top:16px;margin-top:17px}.form-footer .hint{color:#9aaa9b;font-size:11px;line-height:1.5}.form-footer .hint b{color:#335941}
+    .person-checks{display:flex;gap:7px;flex-wrap:wrap;padding:10px 0 4px}.person-option{position:relative}.person-option input{position:absolute;opacity:0;width:1px;height:1px}.person-option span{display:block;padding:9px 12px;border:1px solid #dfe8df;color:#62806a;background:#fafcf9;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer}.person-option input:checked+span{background:#e4f0e3;border-color:#95b9a0;color:#24533d}.person-option input:focus-visible+span{outline:3px solid #a5d2ab}.form-preview{padding:11px 13px;border-radius:10px;background:#f3f8f1;color:#5f8268;font-size:11px;margin-top:10px;line-height:1.6}.viewer-note{padding:18px 20px;border-radius:13px;background:#f0f5ed;border:1px solid #e1e9db;color:#66806a;font-size:12px;display:flex;align-items:center;gap:11px}
+    .expense-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 20px;border-top:1px solid #edf1ec}.expense-item:first-child{border-top:0}.expense-left{min-width:0;display:flex;align-items:center;gap:12px}.expense-icon{display:grid;place-items:center;width:37px;height:37px;flex-shrink:0;border-radius:12px;background:#f5f2e5;color:#9c7c37;font-size:18px}.expense-title{font-size:12px;font-weight:800;color:#30523f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.expense-meta{color:#92a295;font-size:10px;line-height:1.65;margin-top:3px}.expense-right{text-align:right;display:flex;gap:11px;align-items:center;flex-shrink:0}.expense-amount{font-weight:800;color:#29503a;font-size:13px}.expense-mode{color:#95a398;font-size:10px;margin-top:3px}.footer{border-top:1px solid #e5ede4;padding:24px 0 40px;text-align:center;font-size:11px;color:#9ca89d}.footer strong{color:#4f795d}.small-link{color:#4c8260;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+    .toast-area{position:fixed;bottom:24px;right:24px;z-index:50;display:flex;flex-direction:column;gap:7px;max-width:min(350px,calc(100vw - 30px))}.toast{color:#fff;background:#284e3e;padding:13px 16px;box-shadow:0 14px 42px #172d2340;border-radius:11px;font-size:12px;line-height:1.5}.toast.error{background:#8f4a35}
+    .gate{min-height:100vh;background:linear-gradient(115deg,#eff4eb,#f9faf5);position:relative;overflow:hidden}.gate:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 19%,rgba(180,212,168,.32),transparent 45%);pointer-events:none}.gate .shell{position:relative;z-index:2}.gate-top{padding-top:26px}.gate-grid{display:grid;grid-template-columns:1fr 440px;align-items:center;gap:42px;min-height:calc(100vh - 110px);padding-bottom:50px}.gate-copy h1{font:700 clamp(48px,6.6vw,85px)/1.06 'Playfair Display',Georgia,serif;letter-spacing:-.055em;max-width:700px;margin:19px 0 24px}.gate-copy h1 em{color:#7da68b}.gate-copy p{max-width:450px;line-height:1.9;font-size:14px;color:#77917d;margin:0 0 26px}.gate-caps{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.gate-caps span{border:1px solid #dae7d7;border-radius:99px;padding:10px 12px;color:#6a8b72;font-weight:700;font-size:11px;background:#ffffffa8}.gate-art{position:relative;height:210px;margin-top:18px;max-width:560px;overflow:hidden;border-radius:20px;background:#2d5e4f;box-shadow:0 18px 50px #2b534a22}.gate-art svg{width:100%;height:100%}.login-card{background:#fff;padding:34px;border:1px solid #e5ece1;box-shadow:0 26px 90px #305e3920;border-radius:23px;position:relative}.login-card .eyebrow{font-size:10px}.login-card h2{font:700 31px/1.15 'Playfair Display',Georgia,serif;letter-spacing:-.04em;margin:14px 0 9px}.login-card p{color:#8b9d8e;font-size:12px;line-height:1.7;margin:0 0 24px}.login-card .field input{font-size:14px}.login-submit{width:100%;padding:15px;margin-top:10px;font-size:13px}.login-bottom{border-top:1px solid #edf1ea;padding-top:19px;margin-top:22px;text-align:center;font-size:11px;color:#a1ab9e}.password-note{font-size:11px;color:#7d8c80;margin-top:8px}.setup-card{max-width:700px;background:white;padding:35px;border-radius:21px;margin:10vh auto 0;box-shadow:var(--shadow)}.setup-card h1{font:700 36px 'Playfair Display',serif}.setup-card p{line-height:1.8;color:#67816d}.setup-card code{display:block;background:#eaf0ea;padding:13px;border-radius:8px;word-break:break-word;margin:16px 0}
+    @media(max-width:1020px){.gate-grid{grid-template-columns:1fr 390px;gap:22px}.hero-scene{width:65%;opacity:.7}.hero-content{padding:38px}.admin-layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:740px){.shell{padding:0 16px}.nav{min-height:69px}.nav-right{gap:7px}.brand{font-size:17px}.brandmark{width:34px;height:34px}.name-pill{display:none}.signout{padding:7px 2px}.hero{min-height:275px;border-radius:18px;align-items:flex-start}.hero-content{padding:30px 25px 100px}.hero h1{font-size:40px}.hero-scene{width:100%;height:66%;opacity:.68}.stats{gap:10px;margin:14px 0 35px}.stat{padding:15px}.stat-value{font-size:22px}.stat-title{font-size:10px}.section-head h2{font-size:26px}.section-head{align-items:flex-start}.location-note{align-items:stretch;flex-direction:column;gap:12px}.location-actions{justify-content:flex-end}.location-note .btn{flex:1}.section{margin-bottom:32px}th,td{padding:14px 14px}.fields-3{grid-template-columns:1fr 1fr}.fields-3>.field:first-child{grid-column:1/-1}.form-card{padding:20px}.gate-top{padding-top:20px}.gate-grid{grid-template-columns:1fr;gap:28px;min-height:auto;padding:40px 0}.gate-copy h1{font-size:49px}.gate-art{height:144px}.login-card{padding:25px}.footnote{font-size:10px}.expense-item{padding:14px}.expense-icon{width:32px;height:32px}.live-pill{padding:9px 10px}}
+    @media(max-width:420px){.hero h1{font-size:35px}.hero-content{padding:29px 22px 100px}.stat-value{font-size:20px}.section-head h2{font-size:24px}.gate-copy h1{font-size:44px}.expense-right{gap:6px}.expense-icon{display:none}.btn{padding:11px 12px}.login-card h2{font-size:27px}}
+  </style>
+</head>
+<body>
+  <div id="setupScreen" class="gate" hidden>
+    <div class="shell"><div class="setup-card"><div class="brand"><span class="brandmark">✦</span> Aruku Trip</div><h1>One little setup before the adventure.</h1><p>Your page is ready. To turn on real-time updates, add your Firebase Web App configuration and Dinesh's sign-in email in the <strong>SETTINGS</strong> section near the bottom of <strong>index.html</strong>. Follow the bundled <strong>SETUP.md</strong> instructions before uploading to GitHub Pages.</p><code>apiKey · authDomain · projectId · appId · adminEmail</code><p>The admin password is never written in this HTML file. It belongs only in Firebase Authentication.</p></div></div>
+  </div>
+
+  <div id="joinScreen" class="gate" hidden>
+    <div class="shell">
+      <header class="gate-top"><a class="brand" href="#" aria-label="Aruku Trip home"><span class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 18 7-12 4 7 3-4 4 9H3Z"/><path d="M8 18h9"/></svg></span> aruku<span style="color:#86aa89">trip.</span></a></header>
+      <main class="gate-grid">
+        <div class="gate-copy"><span class="eyebrow">THE JOURNEY BEGINS HERE</span><h1>Great memories,<br/><em>better together.</em></h1><p>From winding trails to midnight snacks, every friend, every mile and every shared expense — all in one beautiful place.</p><div class="gate-caps"><span>✧ Friends & locations</span><span>✧ Shared expenses</span><span>✧ Live updates</span></div>
+          <div class="gate-art" aria-hidden="true"><svg viewBox="0 0 650 230" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gs" x2="0" y2="1"><stop stop-color="#6eaa91"/><stop offset="1" stop-color="#d4ceb2"/></linearGradient></defs><rect width="650" height="230" fill="url(#gs)"/><circle cx="455" cy="58" r="34" fill="#f7da9f" opacity=".9"/><path d="M-30 172 155 10l166 163 109-105 242 164Z" fill="#587a69"/><path d="M40 198 260 42l160 154 100-80 160 100Z" fill="#315b4d"/><path d="m213 76 47-34 36 35-33-10-17 15-12-8Z" fill="#d5e2ca"/><path d="M-30 188q180-57 325 2t370-31v100H-30Z" fill="#183f36"/><path d="M0 217q200-30 350 0t300-13v35H0Z" fill="#477c64"/></svg></div>
+        </div>
+        <div class="login-card"><span class="eyebrow">YOU'RE INVITED</span><h2>Welcome to Aruku Trip.</h2><p>Tell us what to call you. We'll save your spot and keep your adventure together in sync.</p>
+          <form id="joinForm"><div class="field"><label for="joinName">YOUR NAME</label><input id="joinName" name="joinName" placeholder="e.g. Arun" maxlength="40" autocomplete="nickname" required /></div>
+            <div class="field" id="adminPasswordField" hidden><label for="joinPassword">ADMIN PASSWORD</label><input type="password" id="joinPassword" name="joinPassword" placeholder="Enter your admin password" autocomplete="current-password" /><div class="password-note">Only Dinesh needs a password.</div></div>
+            <button id="joinButton" class="btn btn-primary login-submit" type="submit">Enter the trip <span aria-hidden="true">→</span></button>
+          </form><div class="login-bottom">🌿 One trip. One link. Everyone connected.</div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="appScreen" hidden>
+    <header class="shell nav"><a class="brand" href="#top"><span class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 18 7-12 4 7 3-4 4 9H3Z"/><path d="M8 18h9"/></svg></span> aruku<span style="color:#86aa89">trip.</span></a>
+      <div class="nav-right"><span id="liveStatus" class="live-pill"><span class="live-dot"></span><span id="liveStatusText">Live updates on</span></span><span id="headerName" class="name-pill">Traveller</span><button id="signOut" class="signout" type="button">Exit</button></div>
+    </header>
+    <main class="shell page" id="top">
+      <section class="hero"><svg class="hero-scene" viewBox="0 0 730 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sky" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#87b39b"/><stop offset="1" stop-color="#c0c9aa"/></linearGradient><linearGradient id="fade" x1="0" x2="1"><stop stop-color="#214d3b" stop-opacity="1"/><stop offset=".48" stop-color="#214d3b" stop-opacity=".12"/><stop offset="1" stop-color="#214d3b" stop-opacity="0"/></linearGradient></defs><rect width="730" height="300" fill="url(#sky)"/><circle cx="545" cy="61" r="37" fill="#f8dea6" opacity=".88"/><path d="M-50 232 163 29l174 197L471 89l270 220Z" fill="#638872"/><path d="m133 58 30-29 34 38-30-15-16 16Z" fill="#deebd7"/><path d="M65 263 278 89l161 154 115-99 190 139Z" fill="#466e59"/><path d="m245 116 34-27 34 33-30-8-12 11Z" fill="#bfcfba"/><path d="M-30 260q130-60 269-8t292-6 250-4v80H-30Z" fill="#2f5a47"/><path d="M-20 293q110-66 260-15t250 5 300-30v70H-20Z" fill="#17483c"/><path d="M400 303l60-112 67 113m-7 0 65-133 84 134" stroke="#2a5744" stroke-width="6" fill="none"/><path d="M497 301l63-159 57 159m-42-1 66-135 57 135" stroke="#1e4e3d" stroke-width="7" fill="none"/><rect width="730" height="300" fill="url(#fade)"/></svg><div class="hero-content"><span class="eyebrow">OUR SHARED ADVENTURE</span><h1>Every mile.<br/><em>Every memory.</em></h1><p>Welcome back, <strong id="heroName">traveller</strong>. Here's what's happening with your crew, your places and your shared journey.</p></div></section>
+      <section class="stats" aria-label="Trip overview"><div class="stat"><div class="stat-title">♙ &nbsp;Travel companions</div><div id="statsPeople" class="stat-value">0</div><div class="stat-sub">Friends in this journey</div></div><div class="stat"><div class="stat-title">♧ &nbsp;Trip item value</div><div id="statsItems" class="stat-value">₹0</div><div class="stat-sub">From your item list</div></div><div class="stat"><div class="stat-title">◎ &nbsp;Allocated expenses</div><div id="statsSpent" class="stat-value">₹0</div><div class="stat-sub">Across everyone</div></div><div class="stat"><div class="stat-title">✦ &nbsp;My allocated share</div><div id="statsMine" class="stat-value">₹0</div><div class="stat-sub">My trip spending so far</div></div></section>
+      <section class="section" id="friends"><div class="section-head"><div><span class="section-overline">01 / WHERE EVERYONE IS</span><h2>Our travel crew</h2><p>Live location sharing, distances from you and one-tap map directions.</p></div><span id="countFriends" class="name-pill">0 friends</span></div>
+        <div class="location-note"><div class="note-content"><div class="note-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><strong id="locationTitle">Location sharing is off</strong><p id="locationDescription">Share your location so friends can see how far away you are. Permission is always your choice.</p></div></div><div class="location-actions"><button id="shareLocationBtn" class="btn btn-primary" type="button">Share my location</button><button id="stopLocationBtn" class="btn btn-outline" type="button" hidden>Stop sharing</button></div></div>
+        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>Friends</th><th>Distance from you</th><th>Coordinates · Get directions</th><th>Allocated spend</th></tr></thead><tbody id="membersBody"><tr><td colspan="4" class="empty-state">Loading your travel crew…</td></tr></tbody></table></div><div class="footnote"><span>Distances are straight-line estimates, not driving distances.</span><span>Tap coordinates to open directions in Maps.</span></div></div>
+      </section>
+      <section class="section" id="items"><div class="section-head"><div><span class="section-overline">02 / EVERYTHING WE PICKED UP</span><h2>Our trip item list</h2><p>Food, groceries, room stays, starters — and anything else you add.</p></div><span id="countItems" class="name-pill">0 items</span></div>
+        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>Item name</th><th>Category</th><th>Qty</th><th>Price each</th><th>Item total</th><th id="itemActionsHeading" hidden>Manage</th></tr></thead><tbody id="itemsBody"><tr><td colspan="5" class="empty-state">No items yet. Dinesh can add the first one.</td></tr></tbody></table></div><div class="item-total-row"><strong><span id="totalItemCount">0</span> total units</strong><span>Total item value &nbsp; <span class="amount" id="totalItemsPrice">₹0</span></span></div></div>
+      </section>
+      <section class="section" id="adminArea" hidden><div class="section-head"><div><span class="section-overline">03 / CAPTAIN'S DASHBOARD</span><h2>Dinesh's control centre</h2><p>Add items, assign an individual expense or split one fairly across selected friends.</p></div><span class="chip chip-admin" style="font-size:10px;padding:8px 12px">✦ ADMIN ONLY</span></div>
+        <div class="admin-layout"><form class="form-card" id="itemForm"><div class="card-head"><div class="card-icon">♧</div><div><h3>Add a trip item</h3><p>Everyone sees it instantly. Use the expense form to allocate who pays for it.</p></div></div><div class="field"><label for="itemName">ITEM NAME</label><input id="itemName" maxlength="100" placeholder="e.g. Biryani, Hotel room, Juice" required /></div><div class="fields-3"><div class="field"><label for="itemCategory">CATEGORY</label><select id="itemCategory"><option>Food</option><option>Groceries</option><option>Room</option><option>Starters</option><option>Transport</option><option>Other</option></select></div><div class="field"><label for="itemQuantity">QUANTITY</label><input id="itemQuantity" type="number" min="1" max="10000" step="1" value="1" required /></div><div class="field"><label for="itemPrice">UNIT PRICE</label><input id="itemPrice" type="number" min="0.01" step="0.01" placeholder="0.00" required /></div></div><div class="form-footer"><span class="hint">Item total <b id="newItemTotal">₹0</b></span><button class="btn btn-primary" type="submit" id="addItemButton">+ Add item</button></div></form>
+          <form class="form-card" id="expenseForm"><div class="card-head"><div class="card-icon">◎</div><div><h3>Assign / split spending</h3><p>Selected friends' spending totals update automatically on every screen.</p></div></div><div class="field"><label for="expenseFromItem">USE A LISTED ITEM (OPTIONAL)</label><select id="expenseFromItem"><option value="">Custom expense / choose below</option></select></div><div class="fields-2"><div class="field"><label for="expenseTitle">EXPENSE NAME</label><input id="expenseTitle" maxlength="100" placeholder="e.g. Dinner bill" required /></div><div class="field"><label for="expenseAmount">TOTAL AMOUNT</label><input type="number" id="expenseAmount" min="0.01" step="0.01" placeholder="0.00" required /></div></div><div class="field"><label for="splitMode">SPENDING TYPE</label><select id="splitMode"><option value="split">Split equally among selected friends</option><option value="individual">Assign to one person</option></select></div><div class="field" style="margin-bottom:7px"><label>WHO SHARES THIS EXPENSE?</label><div id="personPickers" class="person-checks"><span style="font-size:11px;color:#9cab9e">People appear after joining.</span></div></div><div class="form-preview" id="splitPreview">Choose friends and an amount to preview each person's share.</div><div class="form-footer"><span class="hint">Creates a separate entry in <b>spending history</b>.</span><button class="btn btn-primary" type="submit" id="addExpenseButton">+ Save expense</button></div></form></div>
+      </section>
+      <div id="viewerNote" class="viewer-note section"><span aria-hidden="true">🔒</span> Only Dinesh can add items or assign / split expenses. Your updates appear automatically when he saves.</div>
+      <section class="section" id="activity"><div class="section-head"><div><span class="section-overline">04 / THE MONEY TRAIL</span><h2>Spending history</h2><p>A clear record of how every expense was assigned. Item totals are separate until assigned here.</p></div><span id="countExpenses" class="name-pill">0 entries</span></div><div class="table-card" id="expensesList"><div class="empty-state">Nothing allocated yet. Trip stories come first!</div></div></section>
+    </main>
+    <footer class="footer shell">Made for the good times and the long roads ahead. &nbsp; <strong>ARUKU TRIP 🌿</strong></footer>
+  </div>
+  <div id="toastArea" class="toast-area" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    // -----------------------------------------------------------------------
+    // EDIT ONLY THIS SETTINGS BLOCK after creating your Firebase project.
+    // The web config is public by design; do NOT put Dinesh's password here.
+    // -----------------------------------------------------------------------
+    const SETTINGS = {
+      firebaseConfig: {
+        apiKey: 'AIzaSyCB-GoKS71X_p4K9tA4_9vzWMbcP9OYUO8',
+        authDomain: 'aruku-trip.firebaseapp.com',
+        projectId: 'aruku-trip',
+        storageBucket: 'aruku-trip.firebasestorage.app',
+        messagingSenderId: '27981281885',
+        appId: '1:27981281885:web:ce17528c44dbd4b45eebb4'
+      },
+      adminEmail: 'dineshummidi6@gmail.com',
+      tripId: 'aruku-main',
+      currency: 'INR' // Change to SGD, USD, etc. BEFORE recording expenses.
+    };
+    // -----------------------------------------------------------------------
+
+    const $ = id => document.getElementById(id);
+    const configured = SETTINGS.firebaseConfig.apiKey !== 'PASTE_FIREBASE_API_KEY'
+      && !SETTINGS.firebaseConfig.projectId.includes('PASTE_')
+      && !SETTINGS.firebaseConfig.appId.includes('PASTE_')
+      && !SETTINGS.adminEmail.includes('PASTE_');
+
+    if (!configured) {
+      $('setupScreen').hidden = false;
+    } else {
+      await startApp();
+    }
+
+    async function startApp() {
+      // Firebase is loaded from Google's version-pinned CDN: no npm/build required.
+      const [appMod, authMod, dbMod] = await Promise.all([
+        import('https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js'),
+        import('https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js'),
+        import('https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js')
+      ]);
+      const {initializeApp} = appMod;
+      const {getAuth,onAuthStateChanged,signInAnonymously,signInWithEmailAndPassword,signOut,setPersistence,browserLocalPersistence} = authMod;
+      const {getFirestore,collection,doc,getDoc,setDoc,updateDoc,addDoc,deleteDoc,onSnapshot,serverTimestamp,deleteField,enableMultiTabIndexedDbPersistence} = dbMod;
+      const firebaseApp = initializeApp(SETTINGS.firebaseConfig);
+      const auth = getAuth(firebaseApp);
+      const db = getFirestore(firebaseApp);
+      // Cached snapshots + queued offline writes help survive crashes and reloads.
+      enableMultiTabIndexedDbPersistence(db).catch(error => console.info('Offline cache unavailable:', error.code));
+      setPersistence(auth, browserLocalPersistence).catch(() => {});
+
+      const trip = (...parts) => ['trips', SETTINGS.tripId, ...parts];
+      const membersCol = collection(db, ...trip('members'));
+      const itemsCol = collection(db, ...trip('items'));
+      const expensesCol = collection(db, ...trip('expenses'));
+      const amountFormat = new Intl.NumberFormat('en-IN', {style:'currency', currency:SETTINGS.currency,maximumFractionDigits:2});
+      const money = cents => amountFormat.format((cents || 0)/100);
+      const state = {user:null,me:null,isAdmin:false,members:[],items:[],expenses:[],localPosition:null,watchId:null,unsubs:[],loggingIn:false,locationSending:false,lastLocationSave:0,lastCoords:null,loading:false};
+      const savedSharing = () => localStorage.getItem('arukuLocationSharing') === 'yes';
+      const safe = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+      const fmtDate = stamp => stamp?.toDate ? new Intl.DateTimeFormat('en-IN',{dateStyle:'medium',timeStyle:'short'}).format(stamp.toDate()):'Just now';
+      const shortTime = stamp => { if (!stamp?.toDate) return 'Just joined'; const m=Math.max(0,Math.floor((Date.now()-stamp.toDate().getTime())/60000));return m<1?'Just now':m<60?`${m}m ago`:m<1440?`${Math.floor(m/60)}h ago`:`${Math.floor(m/1440)}d ago`; };
+      const cleanName = s => s.trim().replace(/\s+/g,' ').slice(0,40);
+      const centsFrom = value => {const n=Number(value);return Number.isFinite(n)&&n>0 ? Math.round(n*100):0;};
+      const haversineKm = (a,b) => {const rad=Math.PI/180,dlat=(b.lat-a.lat)*rad,dlng=(b.lng-a.lng)*rad,s=Math.sin(dlat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dlng/2)**2;return 6371*2*Math.asin(Math.min(1,Math.sqrt(s)));};
+      const hasCoords = m => Number.isFinite(m?.lat)&&Number.isFinite(m?.lng);
+      const currentPosition = () => state.localPosition; // Only compare from a freshly granted GPS position.
+      const notify = (message,isError=false) => {const t=document.createElement('div');t.className='toast'+(isError?' error':'');t.textContent=message;$('toastArea').appendChild(t);setTimeout(()=>t.remove(),4500);};
+      const errorMessage = err => {
+        const code=err?.code||'';
+        if(code.includes('permission-denied')) return 'Access denied. Check Firebase Firestore rules and the admin UID.';
+        if(code.includes('invalid-credential')||code.includes('wrong-password')) return 'Incorrect admin password. Try again.';
+        if(code.includes('operation-not-allowed')) return 'Enable Anonymous and Email/Password in Firebase Authentication.';
+        if(code.includes('network-request-failed')||code.includes('unavailable')) return 'Network unavailable. Check your connection and try again.';
+        if(code.includes('too-many-requests')) return 'Too many attempts. Please try again later.';
+        return err?.message || 'Something went wrong.';
+      };
+      const setBusy=(id,busy,text) => {$(id).disabled=busy;if(text)$(id).textContent=text;};
+
+      $('joinName').addEventListener('input', () => {const admin=cleanName($('joinName').value).toLowerCase()==='dinesh';$('adminPasswordField').hidden=!admin;$('joinPassword').required=admin;});
+      $('joinForm').addEventListener('submit', async event => {
+        event.preventDefault();if(state.loggingIn)return;
+        const name=cleanName($('joinName').value);
+        if(name.length<2) return notify('Please enter a name with at least 2 characters.',true);
+        const isAdmin=name.toLowerCase()==='dinesh';
+        if(isAdmin&&!$('joinPassword').value)return notify('Enter the admin password.',true);
+        state.loggingIn=true;setBusy('joinButton',true,'Joining…');
+        try {
+          if(auth.currentUser)await signOut(auth);
+          const credential=isAdmin?await signInWithEmailAndPassword(auth,SETTINGS.adminEmail,$('joinPassword').value):await signInAnonymously(auth);
+          const user=credential.user;
+          const profileRef=doc(db,...trip('members',user.uid));
+          const existing=await getDoc(profileRef);
+          if(!existing.exists())await setDoc(profileRef,{name:isAdmin?'Dinesh':name,nameKey:name.toLowerCase(),joinedAt:serverTimestamp()});
+          $('joinPassword').value='';
+          await enter(user,{id:user.uid,name:isAdmin?'Dinesh':name},isAdmin);
+        } catch(err) {
+          notify(errorMessage(err),true);
+          // Failed first-time registrations are not considered a completed login.
+          if(auth.currentUser && !state.me) await signOut(auth).catch(()=>{});
+        } finally {state.loggingIn=false;setBusy('joinButton',false,'Enter the trip →');}
+      });
+
+      onAuthStateChanged(auth,async user => {
+        if(state.loggingIn)return;
+        if(!user){exitLocal();$('joinScreen').hidden=false;return;}
+        if(state.user?.uid===user.uid)return;
+        try {
+          const profile=await getDoc(doc(db,...trip('members',user.uid)));
+          if(!profile.exists()){await signOut(auth);return;}
+          const data=profile.data();
+          if(user.isAnonymous && data.nameKey==='dinesh'){await signOut(auth);return;}
+          await enter(user,{id:user.uid,...data},!user.isAnonymous);
+        } catch(err) {notify(errorMessage(err),true);$('joinScreen').hidden=false;}
+      });
+
+      async function enter(user,profile,isAdmin){
+        exitLocal();state.user=user;state.me=profile;state.isAdmin=isAdmin;
+        $('joinScreen').hidden=true;$('setupScreen').hidden=true;$('appScreen').hidden=false;
+        $('headerName').textContent=isAdmin?'✦ Dinesh · Admin':profile.name;
+        $('heroName').textContent=profile.name;
+        $('signOut').hidden=!isAdmin; // Traveller sessions are kept for reliable name-based resume.
+        $('adminArea').hidden=!isAdmin;$('viewerNote').hidden=isAdmin;$('itemActionsHeading').hidden=!isAdmin;
+        updateConnectivity();renderAll();
+        const listenerError=error=>notify('Live sync: '+errorMessage(error),true);
+        state.unsubs.push(onSnapshot(membersCol,snapshot=>{state.members=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderAll();},listenerError));
+        state.unsubs.push(onSnapshot(itemsCol,snapshot=>{state.items=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderAll();},listenerError));
+        state.unsubs.push(onSnapshot(expensesCol,snapshot=>{state.expenses=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderAll();},listenerError));
+        if(savedSharing()) startSharing();
+        window.scrollTo({top:0});
+      }
+      function exitLocal(){
+        state.unsubs.forEach(fn=>fn());state.unsubs=[];
+        if(state.watchId!==null && navigator.geolocation)navigator.geolocation.clearWatch(state.watchId);
+        state.watchId=null;state.localPosition=null;state.lastCoords=null;state.lastLocationSave=0;
+        state.user=null;state.me=null;state.isAdmin=false;state.members=[];state.items=[];state.expenses=[];
+        $('appScreen').hidden=true;
+      }
+      $('signOut').addEventListener('click',async()=>{
+        // Sign out retains this person's history. A new anonymous login creates a new identity.
+        localStorage.removeItem('arukuLocationSharing');
+        if(state.watchId!==null)await stopSharing();
+        await signOut(auth);exitLocal();$('joinScreen').hidden=false;window.scrollTo({top:0});
+      });
+      function updateConnectivity(){const online=navigator.onLine;$('liveStatus').classList.toggle('offline',!online);$('liveStatusText').textContent=online?'Live updates on':'Offline · cached';}
+      window.addEventListener('online',updateConnectivity);window.addEventListener('offline',updateConnectivity);
+
+      $('shareLocationBtn').addEventListener('click',startSharing);
+      $('stopLocationBtn').addEventListener('click',stopSharing);
+      function updateLocationUI(){
+        const sharing=state.watchId!==null;
+        $('shareLocationBtn').hidden=sharing;$('stopLocationBtn').hidden=!sharing;
+        $('locationTitle').textContent=sharing?'Sharing your current location':'Location sharing is off';
+        $('locationDescription').textContent=sharing?'Your location updates while this webpage is open. Friends can tap your coordinates for directions.':'Enable sharing to calculate distances. You can stop and erase your displayed coordinates anytime.';
+      }
+      function startSharing(){
+        if(!state.user)return;
+        if(!navigator.geolocation){notify('This browser does not support location sharing.',true);return;}
+        if(state.watchId!==null)return;
+        localStorage.setItem('arukuLocationSharing','yes');
+        state.watchId=navigator.geolocation.watchPosition(async pos=>{
+          const coords={lat:Number(pos.coords.latitude.toFixed(6)),lng:Number(pos.coords.longitude.toFixed(6))};
+          state.localPosition=coords;updateLocationUI();renderMembers();
+          const moved=state.lastCoords?haversineKm(state.lastCoords,coords):Infinity;
+          if(state.locationSending || (Date.now()-state.lastLocationSave<15000&&moved<.025))return;
+          state.locationSending=true;
+          try {await updateDoc(doc(db,...trip('members',state.user.uid)),{...coords,locationAt:serverTimestamp()});state.lastLocationSave=Date.now();state.lastCoords=coords;}
+          catch(err){notify('Location was not saved: '+errorMessage(err),true);}
+          finally{state.locationSending=false;}
+        },err=>{
+          if(err.code===1)notify('Location permission denied. Allow location access in your browser settings.',true);
+          else notify('Unable to find your location. Check GPS and connection.',true);
+          localStorage.removeItem('arukuLocationSharing');
+          if(state.watchId!==null)navigator.geolocation.clearWatch(state.watchId);
+          state.watchId=null;state.localPosition=null;updateLocationUI();renderMembers();
+        },{enableHighAccuracy:true,maximumAge:10000,timeout:25000});
+        updateLocationUI();
+      }
+      async function stopSharing(){
+        localStorage.removeItem('arukuLocationSharing');
+        if(state.watchId!==null)navigator.geolocation.clearWatch(state.watchId);
+        state.watchId=null;state.localPosition=null;state.lastCoords=null;updateLocationUI();renderMembers();
+        if(state.user){try{await updateDoc(doc(db,...trip('members',state.user.uid)),{lat:deleteField(),lng:deleteField(),locationAt:deleteField()});notify('Location sharing stopped and coordinates cleared.');}catch(err){notify(errorMessage(err),true);}}
+      }
+
+      const allocatedByPerson=()=>{
+        const totals={};
+        for(const e of state.expenses){for(const [uid,amount] of Object.entries(e.shares||{})){totals[uid]=(totals[uid]||0)+Number(amount||0);}}
+        return totals;
+      };
+      function renderAll(){if(!state.user)return;renderStats();renderMembers();renderItems();renderPickers();renderExpenses();updateLocationUI();}
+      function renderStats(){
+        const itemTotal=state.items.reduce((s,i)=>s+(Number(i.totalCents)||0),0);
+        const expTotal=state.expenses.reduce((s,e)=>s+(Number(e.amountCents)||0),0);
+        const totals=allocatedByPerson();
+        $('statsPeople').textContent=String(state.members.length);$('statsItems').textContent=money(itemTotal);
+        $('statsSpent').textContent=money(expTotal);$('statsMine').textContent=money(totals[state.user.uid]||0);
+      }
+      function renderMembers(){
+        const totals=allocatedByPerson(),origin=currentPosition();
+        const members=[...state.members].sort((a,b)=> a.id===state.user.uid?-1:b.id===state.user.uid?1:a.name.localeCompare(b.name));
+        $('countFriends').textContent=`${members.length} ${members.length===1?'person':'friends'}`;
+        if(!members.length){$('membersBody').innerHTML='<tr><td colspan="4" class="empty-state">Waiting for friends to join…</td></tr>';return;}
+        $('membersBody').innerHTML=members.map(m=>{
+          const mine=m.id===state.user.uid;
+          const valid=hasCoords(m);
+          const distance=valid&&origin?haversineKm(origin,m):null;
+          const direction=valid?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(m.lat+','+m.lng)}`:'';
+          const coordDisplay=valid?`${Number(m.lat).toFixed(5)}, ${Number(m.lng).toFixed(5)}`:'Not shared';
+          const distDisplay=distance===null?'—':(mine?'0 km':distance<1?`${Math.round(distance*1000)} m`:`${distance.toFixed(1)} km`);
+          return `<tr><td><div class="member-name"><span class="avatar">${safe(m.name.slice(0,2))}</span><div><div class="member-label">${safe(m.name)}${mine?'<span class="chip">YOU</span>':''}${!mine&&m.nameKey==='dinesh'?'<span class="chip chip-admin">ADMIN</span>':''}</div><div class="member-secondary">${valid?'Location · '+safe(shortTime(m.locationAt)):'No location shared'}</div></div></div></td><td><div class="distance-main">${safe(distDisplay)}</div><div class="distance-sub">${distance===null?'Share your location to compare':mine?'Your current spot':'Straight-line distance'}</div></td><td>${valid?`<a class="coords" href="${direction}" target="_blank" rel="noopener noreferrer" title="Open map directions">${safe(coordDisplay)} ↗</a>`:`<span style="color:#b0bcb0">${coordDisplay}</span>`}</td><td><span class="money">${money(totals[m.id]||0)}</span></td></tr>`;
+        }).join('');
+      }
+      function renderItems(){
+        const items=[...state.items].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+        const units=items.reduce((s,i)=>s+(Number(i.quantity)||0),0);
+        const total=items.reduce((s,i)=>s+(Number(i.totalCents)||0),0);
+        $('countItems').textContent=`${items.length} ${items.length===1?'item':'items'}`;
+        $('totalItemCount').textContent=units.toLocaleString('en-IN');$('totalItemsPrice').textContent=money(total);
+        if(!items.length){$('itemsBody').innerHTML=`<tr><td colspan="${state.isAdmin?6:5}" class="empty-state">No items yet. Dinesh can add the first one.</td></tr>`;}
+        else $('itemsBody').innerHTML=items.map(i=>`<tr><td class="item-title">${safe(i.name)}</td><td><span class="category">${safe(i.category)}</span></td><td>${Number(i.quantity)||0}</td><td class="nobreak">${money(i.unitPriceCents)}</td><td><span class="money">${money(i.totalCents)}</span></td>${state.isAdmin?`<td><button type="button" class="icon-button" data-delete-item="${safe(i.id)}" aria-label="Delete ${safe(i.name)}">✕</button></td>`:''}</tr>`).join('');
+        const previous=$('expenseFromItem').value;
+        $('expenseFromItem').innerHTML='<option value="">Custom expense / choose below</option>'+items.map(i=>`<option value="${safe(i.id)}">${safe(i.name)} · ${money(i.totalCents)}</option>`).join('');
+        $('expenseFromItem').value=items.some(i=>i.id===previous)?previous:'';
+      }
+      function renderPickers(){
+        const wrap=$('personPickers');const selected=new Set([...wrap.querySelectorAll('input:checked')].map(el=>el.value));
+        const sorted=[...state.members].sort((a,b)=>a.name.localeCompare(b.name));
+        if(!sorted.length){wrap.innerHTML='<span style="font-size:11px;color:#9cab9e">People appear after joining.</span>';updateSplitPreview();return;}
+        wrap.innerHTML=sorted.map(m=>`<label class="person-option"><input type="checkbox" name="expensePerson" value="${safe(m.id)}" ${selected.has(m.id)?'checked':''}/><span>${safe(m.name)}</span></label>`).join('');
+        if($('splitMode').value==='individual')enforceSingleSelection();
+        updateSplitPreview();
+      }
+      function selectedPeople(){return [...document.querySelectorAll('input[name="expensePerson"]:checked')].map(i=>i.value);}
+      function enforceSingleSelection(changed){
+        const all=[...document.querySelectorAll('input[name="expensePerson"]:checked')];
+        if(all.length<=1)return;
+        all.forEach(input=>{if(input!==changed)input.checked=false;});
+      }
+      $('personPickers').addEventListener('change',e=>{if(e.target.matches('input')&&$('splitMode').value==='individual')enforceSingleSelection(e.target);updateSplitPreview();});
+      $('splitMode').addEventListener('change',()=>{if($('splitMode').value==='individual')enforceSingleSelection(document.querySelector('input[name="expensePerson"]:checked'));updateSplitPreview();});
+      $('expenseAmount').addEventListener('input',updateSplitPreview);
+      function computeShares(ids,cents){const shares={};if(!ids.length)return shares;const base=Math.floor(cents/ids.length),remainder=cents%ids.length;ids.forEach((id,index)=>shares[id]=base+(index<remainder?1:0));return shares;}
+      function updateSplitPreview(){
+        const ids=selectedPeople(),cents=centsFrom($('expenseAmount').value);
+        if(!ids.length||!cents){$('splitPreview').textContent='Choose friends and an amount to preview each person\'s share.';return;}
+        const shares=computeShares(ids,cents);
+        const parts=ids.map(id=>`${state.members.find(m=>m.id===id)?.name||'Friend'}: ${money(shares[id])}`);
+        $('splitPreview').textContent=parts.join('   ·   ');
+      }
+      $('expenseFromItem').addEventListener('change',()=>{
+        const found=state.items.find(i=>i.id===$('expenseFromItem').value);
+        if(found){$('expenseTitle').value=found.name;$('expenseAmount').value=(found.totalCents/100).toFixed(2);}
+        updateSplitPreview();
+      });
+      function updateItemPreview(){const q=Number($('itemQuantity').value)||0,c=centsFrom($('itemPrice').value);$('newItemTotal').textContent=money(q*c);}
+      $('itemQuantity').addEventListener('input',updateItemPreview);$('itemPrice').addEventListener('input',updateItemPreview);
+
+      $('itemForm').addEventListener('submit',async e=>{
+        e.preventDefault();if(!state.isAdmin)return;
+        const name=$('itemName').value.trim(),category=$('itemCategory').value,quantity=Number($('itemQuantity').value),unitPriceCents=centsFrom($('itemPrice').value);
+        if(!name||!Number.isSafeInteger(quantity)||quantity<1||quantity>10000||!unitPriceCents)return notify('Enter a valid item, quantity and positive price.',true);
+        if(quantity*unitPriceCents>1000000000)return notify('Item value is too large.',true);
+        setBusy('addItemButton',true,'Saving…');
+        try{await addDoc(itemsCol,{name,category,quantity,unitPriceCents,totalCents:quantity*unitPriceCents,createdAt:serverTimestamp(),createdBy:state.user.uid});
+          $('itemForm').reset();$('itemQuantity').value=1;updateItemPreview();notify('Item added for everyone.');}
+        catch(err){notify(errorMessage(err),true);}finally{setBusy('addItemButton',false,'+ Add item');}
+      });
+      $('expenseForm').addEventListener('submit',async e=>{
+        e.preventDefault();if(!state.isAdmin)return;
+        const title=$('expenseTitle').value.trim(),amountCents=centsFrom($('expenseAmount').value),kind=$('splitMode').value,ids=selectedPeople();
+        if(!title||!amountCents||amountCents>1000000000)return notify('Enter a valid expense description and amount.',true);
+        if(!ids.length)return notify('Select at least one person.',true);
+        if(kind==='individual'&&ids.length!==1)return notify('Individual expenses require exactly one person.',true);
+        const shares=computeShares(ids,amountCents);
+        setBusy('addExpenseButton',true,'Saving…');
+        try{await addDoc(expensesCol,{title,amountCents,kind,shares,memberIds:ids,itemId:$('expenseFromItem').value||'',createdAt:serverTimestamp(),createdBy:state.user.uid});
+          $('expenseTitle').value='';$('expenseAmount').value='';$('expenseFromItem').value='';document.querySelectorAll('input[name="expensePerson"]').forEach(i=>i.checked=false);updateSplitPreview();notify('Expense saved and shared totals updated.');}
+        catch(err){notify(errorMessage(err),true);}finally{setBusy('addExpenseButton',false,'+ Save expense');}
+      });
+
+      function renderExpenses(){
+        const sorted=[...state.expenses].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+        $('countExpenses').textContent=`${sorted.length} ${sorted.length===1?'entry':'entries'}`;
+        if(!sorted.length){$('expensesList').innerHTML='<div class="empty-state">Nothing allocated yet. Trip stories come first!</div>';return;}
+        $('expensesList').innerHTML=sorted.map(e=>{
+          const beneficiaries=Object.keys(e.shares||{}).map(uid=>state.members.find(m=>m.id===uid)?.name||'Former member');
+          const splitText=beneficiaries.join(', ');
+          return `<div class="expense-item"><div class="expense-left"><span class="expense-icon">${e.kind==='individual'?'✦':'♧'}</span><div style="min-width:0"><div class="expense-title">${safe(e.title)}</div><div class="expense-meta">${safe(splitText)} · ${safe(fmtDate(e.createdAt))}</div></div></div><div class="expense-right"><div><div class="expense-amount">${money(e.amountCents)}</div><div class="expense-mode">${e.kind==='individual'?'Individual':'Equal split'}</div></div>${state.isAdmin?`<button type="button" class="icon-button" data-delete-expense="${safe(e.id)}" aria-label="Delete ${safe(e.title)}">✕</button>`:''}</div></div>`;
+        }).join('');
+      }
+      $('itemsBody').addEventListener('click',async e=>{
+        const btn=e.target.closest('[data-delete-item]');if(!btn||!state.isAdmin)return;
+        if(!confirm('Delete this item from the list? Already assigned spending entries will stay.'))return;
+        try{await deleteDoc(doc(db,...trip('items',btn.dataset.deleteItem)));notify('Item deleted.');}catch(err){notify(errorMessage(err),true);}
+      });
+      $('expensesList').addEventListener('click',async e=>{
+        const btn=e.target.closest('[data-delete-expense]');if(!btn||!state.isAdmin)return;
+        if(!confirm('Delete this expense? Everyone’s allocated totals will decrease automatically.'))return;
+        try{await deleteDoc(doc(db,...trip('expenses',btn.dataset.deleteExpense)));notify('Expense deleted; totals recalculated.');}catch(err){notify(errorMessage(err),true);}
+      });
+    }
+  </script>
+</body>
+</html>
